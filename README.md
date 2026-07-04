@@ -77,7 +77,7 @@ DrugBank XML + TWOSIDES CSV + OGBL-DDI + FAERS
 - **GNNExplainer attribution** — Identifies which graph edges drove a specific interaction prediction. Shows the model's reasoning, not just its output.
 - **Monte Carlo Dropout uncertainty** — Runs N stochastic forward passes to produce confidence intervals on every prediction. Flags low-confidence results with a data-quality warning.
 - **Shapley value risk scoring** — Computes each drug's marginal contribution to the overall risk score via permutation-based Shapley attribution. Identifies the "risk culprit" drug in a polypharmacy regimen.
-- **Special rule detection** — Hardcoded clinical safety rules for QT prolongation, CNS depression, NSAID + anticoagulant combinations, and Warfarin interactions — applied on top of GNN predictions.
+- **Special rule detection** — Hardcoded clinical safety rules for QT prolongation, CNS depression, NSAID + anticoagulant combinations, and Warfarin interactions applied on top of GNN predictions.
 
 ---
 
