@@ -18,10 +18,11 @@ Patient-level polypharmacy drug interaction safety analyzer powered by Graph Neu
 
 MedSafe takes a patient's full medication list and predicts pairwise drug interaction risk using a GIN encoder for drug structure and an R-GCN layer for typed interaction edges (pharmacokinetic, pharmacodynamic, metabolic). Instead of a binary yes/no per drug pair, it scores the whole regimen: each interaction gets a severity level, a confidence score, and a Shapley-based breakdown showing which drugs/pathways are driving the risk. Output includes plain-English explanations and safer alternative suggestions. Backend is FastAPI, frontend is React, deployed via Docker.
 
-Live Link: https://medsafe-rishi.vercel.app/
-If not working, wake up the API: https://huggingface.co/spaces/rishu-eh/medsafe-api ( If the api stays inactive, Huggingface sleeps the api, to wake it up,cick this link, in 20-30 seconds, the main website,vercel, shouold be working fine)
----
 
+---
+### Live Link: https://medsafe-rishi.vercel.app/
+### If not working, wake up the API: https://huggingface.co/spaces/rishu-eh/medsafe-api
+#### ( If the website stays inactive, Huggingface sleeps the api, to wake it up,cick this link, in 20-30 seconds, the main website,vercel, shouold be working fine)
 ## Tech Stack
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat-square&logo=python)
