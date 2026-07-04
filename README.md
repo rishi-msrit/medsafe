@@ -93,7 +93,13 @@ DrugBank XML + TWOSIDES CSV + OGBL-DDI + FAERS
 
 ### 1. Clone and install
 
+This repository uses **Git LFS (Large File Storage)** to version model weights (`.pt`) and processed datasets (`.parquet`). Ensure Git LFS is installed on your system before cloning:
+
 ```bash
+# Install Git LFS
+git lfs install
+
+# Clone the repository (LFS will automatically download binary assets)
 git clone https://github.com/rishi-msrit/medsafe.git
 cd medsafe
 ```
