@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  # ── Backend API ──────────────────────────────────────────────────────────────
+  api:
+    build: .
+    container_name: medsafe-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount data dirs — DrugBank XML, processed graphs, checkpoints
+      - ./data:/app/data
+      - ./checkpoints:/app/checkpoints
+      - ./mlruns:/app/mlruns
+    environment:
+      - PYTHONPATH=/app
+      - MEDSAFE_PORT=8000
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ── Frontend Dev Server ───────────────────────────────────────────────────────
+  frontend:
+    image: node:20-alpine
+    container_name: medsafe-frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  default:
+    name: medsafe-network

@@ -1,0 +1,56 @@
+# MedSafe — Requirements
+# Tested with: Python 3.11 | PyTorch 2.5.1+cu121 | Windows 11
+#
+# ─── IMPORTANT: Install in this exact order ───────────────────────────────────
+# 1. torch is already installed (2.5.1+cu121) — skip if present
+# 2. PyG extensions via pre-built wheels (see RUNBOOK Step 1)
+# 3. Everything else below via: pip install -r requirements.txt
+
+# ─── PyTorch (already installed — listed for reference only) ─────────────────
+# torch==2.5.1+cu121
+# torchvision==0.20.1+cu121
+
+# ─── PyTorch Geometric ────────────────────────────────────────────────────────
+# NOTE: torch-scatter / torch-sparse are NOT installed from PyPI.
+# Install them BEFORE this file using the command in Step 1 of RUNBOOK.
+torch-geometric>=2.4.0
+
+# ─── Molecular Processing ─────────────────────────────────────────────────────
+rdkit>=2023.9.1
+pubchempy>=1.0.4
+
+# ─── Data Processing ──────────────────────────────────────────────────────────
+numpy>=1.24.0
+pandas>=2.0.0
+pyarrow>=14.0.0
+scikit-learn>=1.3.0
+scipy>=1.11.0
+
+# ─── Nearest Neighbor Search (for safe alternatives) ─────────────────────────
+faiss-cpu>=1.7.4
+
+# ─── Fuzzy String Matching (drug name search) ────────────────────────────────
+rapidfuzz>=3.5.0
+
+# ─── Config & Logging ─────────────────────────────────────────────────────────
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+tqdm>=4.66.0
+loguru>=0.7.2
+rich>=13.7.0
+
+# ─── Experiment Tracking ──────────────────────────────────────────────────────
+mlflow>=2.9.0
+
+# ─── API Serving ──────────────────────────────────────────────────────────────
+fastapi>=0.108.0
+uvicorn[standard]>=0.25.0
+pydantic>=2.5.0
+httpx>=0.26.0
+python-multipart>=0.0.6
+
+# ─── Visualization (for pairwise radar chart) ─────────────────────────────────
+plotly>=5.18.0
+
+# ─── XML Parsing (DrugBank XML if needed) ────────────────────────────────────
+lxml>=5.1.0

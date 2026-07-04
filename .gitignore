@@ -1,0 +1,30 @@
+# Exclude raw directories and caches
+data/raw/
+data/ogb/
+data/graphs/molecular/
+data/embeddings/
+
+# Ignore backups and logs
+*.bak
+*.log
+
+# Allow checkpoints and processed datasets
+!checkpoints/
+!checkpoints/**/*.pt
+
+# Ignore local runtimes and configurations
+mlruns/
+node_modules/
+frontend/dist/
+frontend/.vite/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.env
+*.env.local
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

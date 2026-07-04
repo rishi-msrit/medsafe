@@ -1,0 +1,241 @@
+# MedSafe Configuration
+# Default: optimized for RTX 3050 4GB VRAM
+# Use --full flag in train.py for larger machines
+
+# ─── Paths ────────────────────────────────────────────────────────────────────
+paths:
+  data_raw: "data/raw"
+  data_processed: "data/processed"
+  data_graphs: "data/graphs"
+  data_embeddings: "data/embeddings"
+  checkpoints: "checkpoints"
+  mlruns: "mlruns"
+  drugbank_xml: "data/raw/drugbank_full_database.xml"   # legacy XML path (fallback)
+  drugbank_csv: "data/raw/drugbank_full_database.csv"   # CSV format (preferred)
+
+# ─── Dataset ──────────────────────────────────────────────────────────────────
+dataset:
+  ogbl_ddi_name: "ogbl-ddi"
+  twosides_name: "TWOSIDES"
+  faers_quarters: 4            # Number of recent FAERS quarters to download
+  min_drug_records: 5          # Below this → low-confidence warning
+
+# ─── Molecular Graph Features ─────────────────────────────────────────────────
+molecular_graph:
+  atom_feature_dim: 80          # atomic num(44) + degree(11) + charge(5) + hybridization(6) + aromatic(1) + Hcount(5) + ring(1) + implicit_val(1)
+  bond_feature_dim: 13          # bond_type(4+1other) + ring(1) + stereo(6) + conjugated(1)
+  max_atoms: 120                # Truncate very large molecules
+
+# ─── GIN Molecular Encoder (default: VRAM-optimized) ─────────────────────────
+gin:
+  num_layers: 3                 # Full: 5
+  hidden_dim: 128               # Full: 256
+  embedding_dim: 64             # Full: 128
+  dropout: 0.15
+  eps: 0.0
+  train_eps: true
+
+# GIN full-mode overrides (activated by --full flag)
+gin_full:
+  num_layers: 5
+  hidden_dim: 256
+  embedding_dim: 128
+  dropout: 0.1
+
+# ─── Contrastive Pretraining ──────────────────────────────────────────────────
+contrastive:
+  temperature: 0.07
+  batch_size: 64               # Full: 256
+  epochs: 300                   # Demo: 20
+  lr: 0.001
+  weight_decay: 1.0e-5
+  warmup_epochs: 10
+  projection_dim: 32            # Full: 64
+  # Augmentation params
+  aug_atom_mask_ratio: 0.15
+  aug_atom_mask_ratio_2: 0.20
+  aug_bond_drop_ratio: 0.10
+  aug_noise_sigma: 0.05
+
+contrastive_full:
+  batch_size: 256
+  projection_dim: 64
+
+# ─── R-GCN DDI Predictor (default: VRAM-optimized) ───────────────────────────
+rgcn:
+  num_layers: 2                 # Full: 3
+  hidden_dim: 128               # Full: 256
+  dropout: 0.2
+  num_interaction_types: 86     # DrugBank interaction categories
+  num_severity_levels: 4        # 0=minor, 1=moderate, 2=major, 3=contraindicated
+  num_bases: 16                 # R-GCN basis decomposition (reduces params)
+
+rgcn_full:
+  num_layers: 3
+  hidden_dim: 256
+  num_bases: 32
+
+# ─── Multi-task Loss Weights ──────────────────────────────────────────────────
+loss_weights:
+  lambda_binary: 1.0
+  lambda_severity: 0.8
+  lambda_type: 0.5
+  lambda_faers: 0.3
+
+# ─── Fine-tuning ──────────────────────────────────────────────────────────────
+finetune:
+  epochs: 200                   # Demo: 20
+  lr: 1.0e-4                    # Reduced from 5e-4 for stability (NaN prevention)
+  weight_decay: 1.0e-5
+  batch_size: 1024              # Prediction head only per batch (safe with 4GB VRAM)
+  freeze_gin_epochs: 30         # Freeze GIN for first N epochs (Full: 50)
+  grad_accumulation_steps: 4    # Effective batch x 4 without extra VRAM
+  early_stopping_patience: 20
+  eval_every: 10                # Evaluate on val every N epochs (was 5 -- reduced to ease load)
+
+finetune_full:
+  freeze_gin_epochs: 50
+
+# ─── Alternative Recommender ──────────────────────────────────────────────────
+recommender:
+  top_k_candidates: 20          # Nearest neighbors to consider
+  top_k_return: 3               # Alternatives to return
+  atc_match_required: false     # If true, only recommend same ATC class
+
+# ─── Polypharmacy Scoring ─────────────────────────────────────────────────────
+scoring:
+  weights:
+    contraindicated: 2.0
+    major: 1.5
+    moderate: 1.0
+    minor: 0.3
+  thresholds:
+    safe: 30
+    review: 60
+    high_risk: 80
+    # > 80 = critical
+  mc_dropout_samples: 50        # Monte Carlo Dropout inference passes
+  low_confidence_threshold: 0.25
+
+# ─── CYP450 Enzymes ───────────────────────────────────────────────────────────
+cyp450_enzymes:
+  - CYP1A2
+  - CYP2C9
+  - CYP2C19
+  - CYP2D6
+  - CYP3A4
+
+# ─── QT-Prolonging Drugs (curated list) ───────────────────────────────────────
+qt_prolonging_drugs:
+  - amiodarone
+  - sotalol
+  - dofetilide
+  - ibutilide
+  - quinidine
+  - procainamide
+  - disopyramide
+  - cisapride
+  - terfenadine
+  - astemizole
+  - haloperidol
+  - thioridazine
+  - chlorpromazine
+  - quetiapine
+  - ziprasidone
+  - droperidol
+  - methadone
+  - clarithromycin
+  - erythromycin
+  - azithromycin
+  - moxifloxacin
+  - levofloxacin
+  - ciprofloxacin
+  - ondansetron
+  - domperidone
+  - hydroxychloroquine
+  - chloroquine
+  - pentamidine
+  - arsenic trioxide
+  - tamoxifen
+  - vandetanib
+  - crizotinib
+
+# ─── CNS Depressant Drug Categories ──────────────────────────────────────────
+cns_depressant_categories:
+  - benzodiazepine
+  - opioid
+  - barbiturate
+  - sedative
+  - hypnotic
+  - antihistamine
+  - muscle relaxant
+  - general anesthetic
+
+# ─── NSAID Categories ─────────────────────────────────────────────────────────
+nsaid_drugs:
+  - ibuprofen
+  - naproxen
+  - diclofenac
+  - aspirin
+  - celecoxib
+  - indomethacin
+  - meloxicam
+  - ketoprofen
+  - piroxicam
+  - ketorolac
+
+# ─── Anticoagulant Categories ─────────────────────────────────────────────────
+anticoagulant_drugs:
+  - warfarin
+  - heparin
+  - apixaban
+  - rivaroxaban
+  - dabigatran
+  - edoxaban
+  - enoxaparin
+  - fondaparinux
+  - clopidogrel
+  - ticagrelor
+  - prasugrel
+
+# ─── Severity Label Mapping ───────────────────────────────────────────────────
+severity_mapping:
+  contraindicated: 3
+  major: 2
+  moderate: 1
+  minor: 0
+  # Aliases
+  "do not use": 3
+  "not recommended": 2
+  significant: 2
+  clinically significant: 2
+
+# ─── FastAPI ──────────────────────────────────────────────────────────────────
+api:
+  host: "0.0.0.0"
+  port: 8000
+  max_drugs_per_request: 15
+  fuzzy_match_threshold: 70    # RapidFuzz score threshold for drug name matching
+  cors_origins:
+    - "http://localhost:5173"
+    - "http://localhost:3000"
+    - "http://localhost:4173"
+
+# ─── MLflow ───────────────────────────────────────────────────────────────────
+mlflow:
+  experiment_name: "medsafe_training"
+  tracking_uri: "mlruns"
+
+# ─── Optuna HPO ───────────────────────────────────────────────────────────────
+hpo:
+  n_trials: 50
+  timeout_seconds: 7200        # 2 hour budget
+  study_name: "medsafe_hpo"
+
+# ─── Training Hardware ────────────────────────────────────────────────────────
+hardware:
+  mixed_precision: true         # torch.cuda.amp — halves VRAM usage
+  cudnn_benchmark: true
+  num_workers: 0                # Windows: must be 0 — PyG pin_memory+workers causes "storage not resizable"
+  pin_memory: true
+  gradient_clip_norm: 1.0

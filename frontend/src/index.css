@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Clinical Variables --- */
+@layer base {
+  :root {
+    --bg-app: #F7F6F3;
+    --bg-card: #FFFFFF;
+    --text-primary: #111111;
+    --text-secondary: #6B7280;
+    --border-clinical: #E2DED8;
+    --border-input: #D1CFC9;
+    --bg-tag: #F0EDE8;
+    
+    --severity-red: #DC2626;
+    --severity-amber: #D97706;
+    --severity-yellow: #CA8A04;
+    --severity-green: #16A34A;
+    
+    --btn-bg: #111111;
+    --btn-text: #FFFFFF;
+    --btn-hover: #222222;
+    
+    --accent: #2563EB;
+    --accent-bg: rgba(37, 99, 235, 0.08);
+  }
+
+  .dark-mode {
+    --bg-app: #0B0C0E;
+    --bg-card: #15171C;
+    --text-primary: #E5E7EB;
+    --text-secondary: #9CA3AF;
+    --border-clinical: #232731;
+    --border-input: #2F3440;
+    --bg-tag: #232731;
+    
+    --severity-red: #EF4444;
+    --severity-amber: #F59E0B;
+    --severity-yellow: #FBBF24;
+    --severity-green: #34D399;
+    
+    --btn-bg: #FAFAFA;
+    --btn-text: #111111;
+    --btn-hover: #E5E7EB;
+    
+    --accent: #3B82F6;
+    --accent-bg: rgba(59, 130, 246, 0.15);
+  }
+
+  body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  /* DM Serif Display for h1 and main titles only */
+  h1, .serif-heading {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-weight: normal;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+  }
+
+  h2, h3, h4, h5, h6 {
+    font-family: 'DM Sans', 'Inter', -apple-system, sans-serif;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+
+  /* Universal Borders */
+  * {
+    border-color: var(--border-clinical);
+  }
+}
+
+/* --- Components --- */
+@layer components {
+  /* Faint dot grid pattern for main content area only */
+  .content-dot-grid {
+    background-image: radial-gradient(#E8E6E0 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  
+  .dark-mode .content-dot-grid {
+    background-image: radial-gradient(#232731 1px, transparent 1px);
+  }
+
+  /* Minimal Clinical Cards */
+  .clinical-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-clinical);
+    border-radius: 4px;
+    padding: 1.5rem;
+    box-shadow: none !important;
+  }
+
+  /* Clinical Buttons */
+  .btn-primary {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    border-radius: 4px;
+    border: 1px solid var(--btn-bg);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--btn-hover);
+    border-color: var(--btn-hover);
+  }
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 14px;
+    padding: 10px 18px;
+    border-radius: 4px;
+    border: 1px solid var(--border-input);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background-color: var(--accent-bg);
+    border-color: var(--text-primary);
+  }
+
+  /* Clinical Form Inputs */
+  .clinical-input {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-input);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s ease;
+    box-shadow: none !important;
+  }
+  .clinical-input:focus {
+    border-color: var(--text-primary);
+  }
+  .clinical-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  /* Drug Chip Tags - Prescription Label Style */
+  .prescription-tag {
+    background-color: var(--bg-tag);
+    border: 1px solid var(--border-input);
+    color: var(--text-primary);
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    border-radius: 4px;
+  }
+
+  /* Clinical All-Caps Section Labels */
+  .clinical-label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: #9CA3AF;
+    font-weight: 500;
+  }
+
+  /* Severity Indicators */
+  .severity-tag-minor {
+    border-left: 3px solid var(--text-secondary);
+  }
+  .severity-tag-moderate {
+    border-left: 3px solid var(--severity-yellow);
+  }
+  .severity-tag-major {
+    border-left: 3px solid var(--severity-amber);
+  }
+  .severity-tag-contraindicated {
+    border-left: 3px solid var(--severity-red);
+  }
+
+  /* Help Bulb Button */
+  .help-bulb-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--bg-tag);
+    border: 1px solid var(--border-input);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    box-shadow: none !important;
+    cursor: pointer;
+  }
+  .help-bulb-btn:hover {
+    background-color: #E8E4DD;
+    color: var(--text-primary);
+  }
+  .dark-mode .help-bulb-btn:hover {
+    background-color: #2F3440;
+    color: var(--text-primary);
+  }
+
+  /* Severity Badge Outlines (Text only, colored border, white fill) */
+  .sev-badge {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid currentColor;
+    background-color: var(--bg-card);
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.15s ease-out forwards;
+}
