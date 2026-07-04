@@ -32,8 +32,11 @@ COPY serving/     serving/
 COPY training/    training/
 COPY evaluation/  evaluation/
 
-# Data directories (populated at runtime via volume mount)
-RUN mkdir -p data/raw data/processed data/graphs data/embeddings checkpoints mlruns
+# Copy checkpoints and data
+COPY checkpoints/ checkpoints/
+COPY data/ data/
+RUN mkdir -p data/raw data/embeddings mlruns
+
 
 # Non-root user for security
 RUN useradd -m -u 1001 medsafe && chown -R medsafe:medsafe /app
