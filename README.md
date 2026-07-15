@@ -29,13 +29,13 @@ MedSafe takes a patient's full medication list and predicts pairwise drug intera
 <table>
 <tr>
 <td align="center">
-<img src="screenshots/1.png" width="350"><br>
+<img src="screenshots/1.jpeg" width="350"><br>
 <b>Home Dashboard</b><br>
 <sub>Brief description of the landing page and primary navigation.</sub>
 </td>
 
 <td align="center">
-<img src="screenshots/2.png" width="350"><br>
+<img src="screenshots/2.jpeg" width="350"><br>
 <b>Drug Analysis</b><br>
 <sub>Brief description of the prediction workflow and user inputs.</sub>
 </td>
@@ -43,13 +43,13 @@ MedSafe takes a patient's full medication list and predicts pairwise drug intera
 
 <tr>
 <td align="center">
-<img src="screenshots/3.png" width="350"><br>
+<img src="screenshots/3.jpeg" width="350"><br>
 <b>Prediction Results</b><br>
 <sub>Brief description of the generated predictions and confidence scores.</sub>
 </td>
 
 <td align="center">
-<img src="screenshots/4.png" width="350"><br>
+<img src="screenshots/4.jpeg" width="350"><br>
 <b>Additional Insights</b><br>
 <sub>Brief description of explainability, recommendations, or visualizations.</sub>
 </td>
