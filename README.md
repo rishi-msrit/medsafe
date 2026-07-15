@@ -22,7 +22,40 @@ MedSafe takes a patient's full medication list and predicts pairwise drug intera
 ---
 ### Live Link: https://medsafe-rishi.vercel.app/
 ### If not working, wake up the API: https://huggingface.co/spaces/rishu-eh/medsafe-api
-#### ( If the website stays inactive, Huggingface sleeps the api, to wake it up,cick this link, in 20-30 seconds, the main website,vercel, shouold be working fine)
+#### ( The live demo is hosted on Hugging Face Spaces. Since the project runs on the free tier, the Space automatically goes to sleep after a period of inactivity. If the demo is unavailable, please open a GitHub Issue or contact me through LinkedIn, and I'll restart the Space as soon as possible.)
+
+### Screenshots
+
+<table>
+<tr>
+<td align="center">
+<img src="screenshots/1.png" width="350"><br>
+<b>Home Dashboard</b><br>
+<sub>Brief description of the landing page and primary navigation.</sub>
+</td>
+
+<td align="center">
+<img src="screenshots/2.png" width="350"><br>
+<b>Drug Analysis</b><br>
+<sub>Brief description of the prediction workflow and user inputs.</sub>
+</td>
+</tr>
+
+<tr>
+<td align="center">
+<img src="screenshots/3.png" width="350"><br>
+<b>Prediction Results</b><br>
+<sub>Brief description of the generated predictions and confidence scores.</sub>
+</td>
+
+<td align="center">
+<img src="screenshots/4.png" width="350"><br>
+<b>Additional Insights</b><br>
+<sub>Brief description of explainability, recommendations, or visualizations.</sub>
+</td>
+</tr>
+</table>
+
 ## Tech Stack
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat-square&logo=python)
